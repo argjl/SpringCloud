@@ -1,7 +1,5 @@
 package com.springcloud.currency.controller;
 
-import java.math.BigDecimal;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +14,23 @@ import com.springcloud.currency.repository.ExchangeValueRepository;
 @RestController
 public class CurrencyExchangeController {
 
-	Logger logger=LoggerFactory.getLogger(CurrencyExchangeController.class);
-	
+	Logger logger = LoggerFactory.getLogger(CurrencyExchangeController.class);
+
 	@Autowired
 	private Environment environment;
-	
+
 	@Autowired
 	private ExchangeValueRepository repository;
 
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")
 	public ExchangeValue retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
-		ExchangeValue exchangeValue =repository.findByFromAndTo(from, to);
-		  if (exchangeValue == null) {
-		        logger.warn("No exchange value found for {} to {}", from, to);
-		        throw new RuntimeException("Unable to find data for " + from + " to " + to);
-		    }
+		ExchangeValue exchangeValue = repository.findByFromAndTo(from, to);
+		if (exchangeValue == null) {
+			logger.warn("No exchange value found for {} to {}", from, to);
+			throw new RuntimeException("Unable to find data for " + from + " to " + to);
+		}
 		System.out.println(exchangeValue);
-		logger.info("exchange value: {}",exchangeValue);
+		logger.info("exchange value: {}", exchangeValue);
 		exchangeValue.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
 		return exchangeValue;
 	}

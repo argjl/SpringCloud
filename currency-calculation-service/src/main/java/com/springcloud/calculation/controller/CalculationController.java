@@ -3,6 +3,8 @@ package com.springcloud.calculation.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import com.springcloud.model.CalculatedAmount;
 @RestController
 public class CalculationController {
 
+	Logger logger =LoggerFactory.getLogger(CalculationController.class);
+	
 	@Autowired
 	private CurrencyExchangeProxy proxy;
 
@@ -33,6 +37,7 @@ public class CalculationController {
 		ResponseEntity<CalculatedAmount> responseEntity = new RestTemplate().getForEntity(
 				"http://localhost:8000/currency-exchange/from/{from}/to/{to}", CalculatedAmount.class, uriVariables);
 		CalculatedAmount calculatedAmount = responseEntity.getBody();
+		logger.info("Calculated Amount {} :", calculatedAmount);
 		return new CalculatedAmount(calculatedAmount.getId(), calculatedAmount.getFrom(), calculatedAmount.getTo(),
 				calculatedAmount.getConversionMultiple(), quantity, quantity * calculatedAmount.getConversionMultiple(),
 				calculatedAmount.getPort());
@@ -43,7 +48,7 @@ public class CalculationController {
 			@PathVariable Long quantity) {
 
 		CalculatedAmount calculatedAmount = proxy.retrieveExchangeValue(from, to);
-
+		logger.info("Calculated Amount {} :", calculatedAmount);
 		return new CalculatedAmount(calculatedAmount.getId(), calculatedAmount.getFrom(), calculatedAmount.getTo(),
 				calculatedAmount.getConversionMultiple(), quantity, quantity * calculatedAmount.getConversionMultiple(),
 				calculatedAmount.getPort());
@@ -60,7 +65,7 @@ public class CalculationController {
 		// and balance across them
 		String url = "http://currency-exchange-service/currency-exchange/from/{from}/to/{to}";
 		CalculatedAmount calculatedAmount = restTemplate.getForObject(url, CalculatedAmount.class, uriVariables);
-
+		logger.info("Calculated Amount {} :", calculatedAmount);
 		return new CalculatedAmount(calculatedAmount.getId(), calculatedAmount.getFrom(), calculatedAmount.getTo(),
 				calculatedAmount.getConversionMultiple(), quantity, quantity * calculatedAmount.getConversionMultiple(),
 				calculatedAmount.getPort());
