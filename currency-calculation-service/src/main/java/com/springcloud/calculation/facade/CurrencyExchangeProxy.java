@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.springcloud.model.CalculatedAmount;
 
 //@FeignClient(name= "currency-exchange-service", url="http://localhost:8000/")
-//@FeignClient(name= "currency-exchange-service")
-@FeignClient(name= "zulu-api-gateway-server")
+@FeignClient(name= "currency-exchange-service")
+//@FeignClient(name= "zulu-api-gateway-server")
 public interface CurrencyExchangeProxy {
 
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")

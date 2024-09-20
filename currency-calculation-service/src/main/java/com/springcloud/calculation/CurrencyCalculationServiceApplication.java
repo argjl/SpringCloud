@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import brave.sampler.Sampler;
 
 @SpringBootApplication
-@EnableFeignClients
+@EnableFeignClients("com.springcloud.calculation")
 @EnableDiscoveryClient
 public class CurrencyCalculationServiceApplication {
 
