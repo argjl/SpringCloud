@@ -1,7 +1,5 @@
 package com.springcloud.currency.model;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +8,6 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Getter
@@ -24,7 +21,7 @@ public class ExchangeValue {
 	private String from;
 	@Column(name = "currency_to")
 	private String to;
-	private BigDecimal conversionMultiple;
+	private Long conversionMultiple;
 	@Getter
 	@Setter
 	private int port;
@@ -35,7 +32,7 @@ public class ExchangeValue {
 				+ conversionMultiple + "]";
 	}
 
-	public ExchangeValue(Long id, String from, String to, BigDecimal conversionMultiple) {
+	public ExchangeValue(Long id, String from, String to, Long conversionMultiple) {
 		super();
 		this.id = id;
 		this.from = from;
